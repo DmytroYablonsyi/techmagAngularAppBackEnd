@@ -9,20 +9,6 @@ const getCustomers = asyncHandler (async (req, res) => {
     res.status(200).send(customers);
 });
 
-// get customer by id
-// GET /api/customers/:id
-
-const getCustomerById = asyncHandler (async (req, res) => { 
-    const customer = await Customer.findById(req.params.id)
-
-    if(customer){
-        res.status(200).json(customer)
-    }else{
-        res.status(400);
-        throw new Error('customer not found')
-    }
-});
-
 // Create customer
 // POST /api/customers
 
@@ -45,4 +31,4 @@ const createCustomer = asyncHandler (async (req, res) => {
 
 });
 
-export { getCustomers, getCustomerById, createCustomer}
+export { getCustomers, createCustomer}
