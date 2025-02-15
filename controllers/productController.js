@@ -1,15 +1,41 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 
-// Fetch all products
-// GET api/products
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Get all products
+ *     description: Fetch all products from the database.
+ *     responses:
+ *       200:
+ *         description: A list of products.
+ */
 const getProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({});
     res.json(products);
 });
 
-// Fetch a product
-// GET api/products/:id
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   get:
+ *     summary: Get product by ID
+ *     description: Retrieve a specific product by its ID.
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the product.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully fetched product details.
+ *       404:
+ *         description: Product not found.
+ */
+
 const getProductsById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
@@ -21,8 +47,31 @@ const getProductsById = asyncHandler(async (req, res) => {
   }
 });
 
-// Create product
-// POST api/products
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Create a new product
+ *     description: Create a new product by providing product details.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *               deliveryAvailable:
+ *                 type: boolean
+ *     responses:
+ *       201:
+ *         description: Product created successfully.
+ */
 
 const createProduct = asyncHandler (async (req, res) => { 
     const { name, price, description, deliveryAvailable } = req.body;

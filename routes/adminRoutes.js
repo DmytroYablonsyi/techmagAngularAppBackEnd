@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { authUser, registerUser } from "../controller/adminController.js"
+import { authUser, registerUser } from "../controllers/adminController.js"
 
 router.route("/register").post(registerUser)
 router.route("/login").post(authUser);
