@@ -56,7 +56,25 @@ export const products = [
       description: "Apple AirPods Pro are premium wireless earbuds designed for immersive audio experiences. They feature active noise cancellation, Adaptive Transparency mode, and dynamic drivers for rich sound. With a MagSafe-compatible charging case, they offer up to 6 hours of battery life per charge.",
       price: 250,
       delivery: {
-        available: false
+        available: false,
+        methods: [ 
+          {
+            method: "Courier delivery",
+            time: "3 days",
+            price: 120
+          },
+          {
+            method: "Pickup",
+            time: "2 days",
+            price: 0
+          },
+          {
+            method: "Nova Poshta delivery",
+            time: "2 days",
+            price: 80
+          }
+           
+        ],
       }
     },
     {
@@ -116,7 +134,25 @@ export const products = [
       description: "Sony’s PlayStation 5 delivers next-gen 4K gaming with ultra-fast SSD storage and immersive DualSense controller haptic feedback. It supports an extensive library of exclusive games.",
       price: 700,
       delivery: {
-        available: false
+        available: false,
+        methods: [ 
+          {
+            method: "Courier delivery",
+            time: "3 days",
+            price: 120
+          },
+          {
+            method: "Pickup",
+            time: "2 days",
+            price: 0
+          },
+          {
+            method: "Nova Poshta delivery",
+            time: "2 days",
+            price: 80
+          }
+           
+        ],
       }
     },
     {

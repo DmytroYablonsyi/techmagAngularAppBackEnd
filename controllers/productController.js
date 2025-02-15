@@ -49,10 +49,17 @@ const getProductsById = asyncHandler(async (req, res) => {
 
 /**
  * @swagger
- * /api/products:
- *   post:
- *     summary: Create a new product
- *     description: Create a new product by providing product details.
+ * /api/products/{id}:
+ *   put:
+ *     summary: Update an existing product
+ *     description: Update the details of an existing product by providing its ID and new data.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The product ID to update.
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -68,45 +75,79 @@ const getProductsById = asyncHandler(async (req, res) => {
  *                 type: string
  *               deliveryAvailable:
  *                 type: boolean
+ *               deliveryMethods:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     method:
+ *                       type: string
+ *                     time:
+ *                       type: string
+ *                     price:
+ *                       type: number
  *     responses:
- *       201:
- *         description: Product created successfully.
+ *       200:
+ *         description: Product updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 price:
+ *                   type: number
+ *                 description:
+ *                   type: string
+ *                 deliveryAvailable:
+ *                   type: boolean
+ *                 deliveryMethods:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       method:
+ *                         type: string
+ *                       time:
+ *                         type: string
+ *                       price:
+ *                         type: number
+ *       400:
+ *         description: Invalid data provided.
+ *       404:
+ *         description: Product not found.
+ *       500:
+ *         description: Server error occurred while updating product.
  */
 
-const createProduct = asyncHandler (async (req, res) => { 
-    const { name, price, description, deliveryAvailable } = req.body;
 
-    const product = new Product({
+const updateProduct = asyncHandler (async (req, res) => {
+  const id = req.params.id;
+  const { name, description, price, deliveryAvailable, deliveryMethods } = req.body
+  const newData = {
       name: name,
-      price: price,
-      description: description,
+      description,
+      price,
       delivery: {
         available: deliveryAvailable,
-        method: [ 
-            {
-              method: "Courier delivery",
-              time: "3 days",
-              price: 120
-            },
-            {
-              method: "Pickup",
-              time: "2 days",
-              price: 0
-            },
-            {
-              method: "Nova Poshta delivery",
-              time: "2 days",
-              price: 80
-            }
-             
-          ]
+        methods: [ 
+          ...deliveryMethods
+        ],
       }
-    });
-  
-    const createProduct = await product.save();
-    res.status(201).json(createProduct);
-  
+  }
+console.log(req.body)
+  try {
+      const updatedProduct = await Product.findByIdAndUpdate(id, newData, { new: true });
+      if (!updatedProduct) {
+        return res.status(404).send('Product not found');
+      }
+      res.status(200).json(updatedProduct);
+    } 
+  catch (error) {
+      res.status(500).send('Error updating product data');
+    }
   });
 
-export {getProducts, getProductsById, createProduct}
+export {getProducts, getProductsById, updateProduct}
 
