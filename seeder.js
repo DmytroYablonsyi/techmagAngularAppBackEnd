@@ -22,13 +22,7 @@ const importData = async () => {
         await User.deleteMany();
 
         await Customer.insertMany(customers);
-
         await Order.insertMany(orders);
-
-        // const sampleProducts = products.map((product) => { 
-        //     return {...product}
-        // });
-
         await Product.insertMany(products);
         await User.insertMany(adminUser)
 

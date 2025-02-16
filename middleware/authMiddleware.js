@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from './asyncHandler.js';
 
+// Middleware to protect routes by verifying the JWT token.
+
 const protect = asyncHandler(async(req, res, next) => {
     
     let token = req.headers['authorization'];
